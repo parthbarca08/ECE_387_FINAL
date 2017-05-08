@@ -18,6 +18,8 @@ MPU9250 myIMU;
 RGBmatrixPanel matrix(A, B, C, CLK, LAT, OE, false);
 
 
+
+
 // software reset of arduino
 void(* reset)(void) = 0;
 
@@ -57,6 +59,9 @@ enum direction {
   up,
   down
 };
+// true,false
+#define true 1;
+#defint false 0;
 
 direction dir = down;
 int threshold = 5000; // IMU tilt threshold. (lower # = sensitive, higher # = less sensitive)
@@ -161,42 +166,42 @@ void newDirection() {
 }
 //---------------- Apple Placement -------------//
 void placeApple() { 
- bool done = false;
-  while(done == false) {
-   byte newX = random(1,31);
-   byte newY = random(1,15);
+    boolean check;
+  while(check == 0) {
+   int newX = random(1,31);
+   int newY = random(1,15);
   if (!(snakeCheck(newX,newY))) { // this check if the apple will be placed in the position of the snake
    applePosX = newX;
    applePosY = newY;
-   done = true;
+   check = 1;
   }
  }
 } 
 //---------------- Danger Placement -------------//
 void placeDanger() {
-  bool done = false;
-  while(done == false) {
+    boolean check;
+  while(done == 0) {
     int deathX = random(0,31);
     int deathY = random(0,15);
   if(!(snakeCheck(deathX,deathY))) { // this checks if the Danger Apple will be placed in the position of the snake.. 
     dangerPos_1[0] = deathX;
     dangerPos_1[1] = deathY;
-    done = true;
+    check = 1;
     }
    else if (!(snakeCheck(deathX,deathY))) {
     dangerPos_2[0] = deathX;
     dangerPos_2[1] = deathY;
-    done = true;
+    check = 1;
     }
    else if (!(snakeCheck(deathX,deathY))) {
     dangerPos_3[0] = deathX;
     dangerPos_3[1] = deathY;
-    done = true;
+    check = 1;
     }
    else if (!(snakeCheck(deathX,deathY))) {
     dangerPos_4[0] = deathX;
     dangerPos_4[1] = deathY;
-    done = true;
+    check = 1;
     }
   }
 }
@@ -212,45 +217,45 @@ bool appleHit() {
 //------------------ Detecting Danger Apple Hit ----------------------//
 bool dangerHit() {
   if (positionX == dangerPos_1[0] && positionY == dangerPos_1[1]) { // Essentially does the same as appleHit().
-    return true;
+    return 1;
   }
   else if (positionX == dangerPos_2[0] && positionY == dangerPos_2[1]) {
-    return true;
+    return 1;
   }
   else if (positionX == dangerPos_3[0] && positionY == dangerPos_3[1]) {
-    return true;
+    return 1;
   }
     else if (positionX == dangerPos_4[0] && positionY == dangerPos_4[1]) {
-    return true;
+    return 1;
     }
   else{
-    return false;
+    return 0;
   }  
 }
 //-------------- Checking if Snake hits itself------------// 
 bool snakeCheck(int temX, int temY){
   for (int i = 0; i < len; i++) {
     if (temX == noodleX[i] && temY == noodleY[i]) { // This checks if the snake hits itself, and returns a true or false value
-      return true;
+      return 1;
     }
   }
-  return false;
+  return 0;
 }
 //------------------ Snake Movement ----------------------//
 void moveSnake() {
-  if (snakeCheck(positionX, positionY ) == true) { // This checks to see if the movement of the snake is hitting itself,
+  if (snakeCheck(positionX, positionY ) == 1) { // This checks to see if the movement of the snake is hitting itself,
    youdied();                                          // if so, then it prompts the Game Over Screens, and does a system rst.
    resetSnek();
    reset();
    }
-  else if (appleHit() == true) {                      // This increases the length of the snake if an apple is hit,
+  else if (appleHit() == 1) {                      // This increases the length of the snake if an apple is hit,
    noodleX[len] = positionX;                       // also places a new apple on the screen.
    noodleY[len] = positionY;
    len = len + 1;
    count = count + 1;
    placeApple();
   }
-  else if (dangerHit() == true) {                    // This detects if the snake hits a Danger Apple, and prompts the reset screens
+  else if (dangerHit() == 1) {                    // This detects if the snake hits a Danger Apple, and prompts the reset screens
    noodleX[len] = positionX;
    noodleY[len] = positionY;                      // also prompts the score
    resetSnek();
