@@ -111,7 +111,7 @@ void loop() {
     delay(100); // Inadvertantly determines how fast the snake goes.
     newDirection();
     moveCheck();
-    erase();
+    clear();
 
 }  
 //--------------- Drirectional Controll ---------------//
@@ -244,7 +244,7 @@ boolean snakeCheck(int tempX, int tempY){
 //------------------ Snake Movement ----------------------//
 void moveCheck(void) {
   if (snakeCheck(positionX, positionY ) == 1) { // This checks to see if the movement of the snake is hitting itself,
-   youdied();                                          // if so, then it prompts the Game Over Screens, and does a system rst.
+   death();                                          // if so, then it prompts the Game Over Screens, and does a system rst.
    resetSnek();
    reset();
    }
@@ -273,9 +273,9 @@ void moveCheck(void) {
   }
 }  
 //-------------- Death State -----------------//
-void youdied(void) {
+void death(void) {
   SCORE();                                               // This is the death screen.
-  erase();                                               // uses Library provided to display characters on Matrix
+  clear();                                               // uses Library provided to display characters on Matrix
   
   matrix.setCursor(5,0);
   matrix.setTextSize(1);
@@ -301,7 +301,7 @@ void youdied(void) {
 }
 
 //---------- Erase Screen -----------//
-void erase(void) {
+void clear(void) {
   matrix.fillScreen(matrix.Color333(0, 0, 0));  
 }
 //------------- Draw Snake -----------------//
@@ -325,7 +325,7 @@ void drawDanger(void) {                                                         
 }
 //-----------------Displays # of Apples Hit----------------//
 void SCORE(void) {
-  erase();                                                      // This takes the score, and displays it.
+  clear();                                                      // This takes the score, and displays it.
   matrix.setCursor(1,0);
   matrix.setTextSize(1);
   matrix.setTextColor(matrix.Color333(255, 0 , 0));
@@ -346,12 +346,12 @@ void SCORE(void) {
 }
 //--------------- Displays Danger Text Scroll -----------------//
 void DANGER (void) {
-  erase();                                                                // This is Scroll test for the reset screens
+  clear();                                                                // This is Scroll test for the reset screens
   int flag = 1;
   float start_time = millis();
   float buffer_time = 5000;
   while(flag){
-  erase();
+  clear();
   matrix.setTextColor(matrix.ColorHSV(hue, 255, 255, true));
   matrix.setCursor(textX, 1);
   matrix.print(F2(str_1));
@@ -370,13 +370,13 @@ void DANGER (void) {
 }
 //--------------- Displays Reset Instruction Text Scroll -----------------//
 void resetSnek(void) {                                                     // This is Scroll test for the reset screens
-  erase();
+  clear();
   int flag = 1;
   float start_time = millis();
-  float buffer_time = 12000;
+  float buffer_time = 6000;
   
   while(flag){
-    erase();
+    clear();
     matrix.setTextColor(matrix.ColorHSV(hue, 255, 255, true));
     matrix.setCursor(textX, 1);
     matrix.print(F2(str));
