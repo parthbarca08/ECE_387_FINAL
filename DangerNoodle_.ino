@@ -110,12 +110,12 @@ void loop() {
     drawSnake();
     delay(100); // Inadvertantly determines how fast the snake goes.
     newDirection();
-    moveSnake();
+    moveCheck();
     erase();
 
 }  
 //--------------- Drirectional Controll ---------------//
-void newDirection() {
+void newDirection(void) {
   if (myIMU.ay <= myIMU.ax && myIMU.ay <= (-1 * threshold)) { // This allows the Snake to travel in the downward direction.
     if (dir != up){
       dir = down;
@@ -165,20 +165,20 @@ void newDirection() {
   }
 }
 //---------------- Apple Placement -------------//
-void placeApple() { 
+void placeApple(void) { 
     boolean check;
-  while(check == 0) { // checks to see if it has been done, if not then will continue to loop
-   int newX = random(1,31);
-   int newY = random(1,15);
-  if (!(snakeCheck(newX,newY))) { // this check if the apple will be placed in the position of the snake
-   applePosX = newX;
-   applePosY = newY;
-   check = 1; // indicates wheather loop is done
-  }
- }
-} 
+      do {
+        int newX = random(1,31);
+        int newY = random(1,15);
+       if (!(snakeCheck(newX,newY))) { // this check if the apple will be placed in the position of the snake
+        applePosX = newX;
+        applePosY = newY;
+        check = 1; // indicates wheather loop is done
+       }  
+   } while(check == 0) { // checks to see if it has been done, if not then will continue to loop
+}  // this is a do while loop so it does the loop atlease once before the condition is met.
 //---------------- Danger Placement -------------//
-void placeDanger() { // same concept as placeApple(), 
+void placeDanger(void) { // same concept as placeApple(), 
     boolean check;
   while(check == 0) {
     int deathX = random(0,31);
@@ -206,7 +206,7 @@ void placeDanger() { // same concept as placeApple(),
   }
 }
 //----------------- Detecting Apple Hit -------------------// 
-bool appleHit() {
+boolean appleHit() {
   if (positionX == applePosX && positionY == applePosY) { // Detects if the head of the snake is in the position of the apple,
     return true;                                                  // if it is, then it returns a true val, else its false.
   }
@@ -215,7 +215,7 @@ bool appleHit() {
   }
 }
 //------------------ Detecting Danger Apple Hit ----------------------//
-bool dangerHit() {
+boolean dangerHit() {
   if (positionX == dangerPos_1[0] && positionY == dangerPos_1[1]) { // Essentially does the same as appleHit().
     return 1;
   }
@@ -233,16 +233,16 @@ bool dangerHit() {
   }  
 }
 //-------------- Checking if Snake hits itself------------// 
-bool snakeCheck(int temX, int temY){
+boolean snakeCheck(int tempX, int tempY){
   for (int i = 0; i < len; i++) {
-    if (temX == noodleX[i] && temY == noodleY[i]) { // This checks if the snake hits itself, and returns a true or false value
+    if (tempX == noodleX[i] && tempY == noodleY[i]) { // This checks if the snake hits itself, and returns a 1 for true or 0 for false
       return 1;
     }
   }
   return 0;
 }
 //------------------ Snake Movement ----------------------//
-void moveSnake() {
+void moveCheck(void) {
   if (snakeCheck(positionX, positionY ) == 1) { // This checks to see if the movement of the snake is hitting itself,
    youdied();                                          // if so, then it prompts the Game Over Screens, and does a system rst.
    resetSnek();
@@ -273,7 +273,7 @@ void moveSnake() {
   }
 }  
 //-------------- Death State -----------------//
-void youdied() {
+void youdied(void) {
   SCORE();                                               // This is the death screen.
   erase();                                               // uses Library provided to display characters on Matrix
   
@@ -301,11 +301,11 @@ void youdied() {
 }
 
 //---------- Erase Screen -----------//
-void erase() {
+void erase(void) {
   matrix.fillScreen(matrix.Color333(0, 0, 0));  
 }
 //------------- Draw Snake -----------------//
-void drawSnake() {
+void drawSnake(void) {
   for (int i = 0; i < len; i++) {                                                  // This is just adding color/drawing the snake.
     matrix.drawPixel(noodleX[i], noodleY[i], matrix.Color333(0 , 255, 255));
     matrix.drawPixel(noodleX[len-1], noodleY[len-1], matrix.Color333(255, 0, 0));
@@ -313,18 +313,18 @@ void drawSnake() {
   
 }
 //-------------- Draw Apple --------------//
-void drawApple() {
+void drawApple(void) {
   matrix.drawPixel(applePosX, applePosY, matrix.Color333(0,7,0));            // draws the apple at the generated position
 }
 //--------------Draw Danger Apple ---------------//
-void drawDanger() {                                                              // draws the Danger Apples at the generated positions
+void drawDanger(void) {                                                              // draws the Danger Apples at the generated positions
   matrix.drawPixel(dangerPos_1[0], dangerPos_1[1], matrix.Color333(random(0,255) ,random(0,255) ,random(0,255)));
   matrix.drawPixel(dangerPos_2[0], dangerPos_2[1], matrix.Color333(random(0,255) ,random(0,255) ,random(0,255)));
   matrix.drawPixel(dangerPos_3[0], dangerPos_3[1], matrix.Color333(random(0,255) ,random(0,255) ,random(0,255)));
   matrix.drawPixel(dangerPos_4[0], dangerPos_4[1], matrix.Color333(random(0,255) ,random(0,255) ,random(0,255)));
 }
 //-----------------Displays # of Apples Hit----------------//
-void SCORE() {
+void SCORE(void) {
   erase();                                                      // This takes the score, and displays it.
   matrix.setCursor(1,0);
   matrix.setTextSize(1);
@@ -345,7 +345,7 @@ void SCORE() {
   delay(2000);
 }
 //--------------- Displays Danger Text Scroll -----------------//
-void DANGER () {
+void DANGER (void) {
   erase();                                                                // This is Scroll test for the reset screens
   int flag = 1;
   float start_time = millis();
@@ -369,7 +369,7 @@ void DANGER () {
   }
 }
 //--------------- Displays Reset Instruction Text Scroll -----------------//
-void resetSnek() {                                                     // This is Scroll test for the reset screens
+void resetSnek(void) {                                                     // This is Scroll test for the reset screens
   erase();
   int flag = 1;
   float start_time = millis();
