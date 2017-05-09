@@ -17,7 +17,9 @@ MPU9250 myIMU;
 #define C   A2
 RGBmatrixPanel matrix(A, B, C, CLK, LAT, OE, false);
 
-
+// true,false
+#define true 1;
+#define false 0;
 
 
 // software reset of arduino
@@ -59,9 +61,7 @@ enum direction {
   up,
   down
 };
-// true,false
-#define true 1;
-#defint false 0;
+
 
 direction dir = down;
 int threshold = 5000; // IMU tilt threshold. (lower # = sensitive, higher # = less sensitive)
@@ -167,20 +167,20 @@ void newDirection() {
 //---------------- Apple Placement -------------//
 void placeApple() { 
     boolean check;
-  while(check == 0) {
+  while(check == 0) { // checks to see if it has been done, if not then will continue to loop
    int newX = random(1,31);
    int newY = random(1,15);
   if (!(snakeCheck(newX,newY))) { // this check if the apple will be placed in the position of the snake
    applePosX = newX;
    applePosY = newY;
-   check = 1;
+   check = 1; // indicates wheather loop is done
   }
  }
 } 
 //---------------- Danger Placement -------------//
-void placeDanger() {
+void placeDanger() { // same concept as placeApple(), 
     boolean check;
-  while(done == 0) {
+  while(check == 0) {
     int deathX = random(0,31);
     int deathY = random(0,15);
   if(!(snakeCheck(deathX,deathY))) { // this checks if the Danger Apple will be placed in the position of the snake.. 
@@ -257,17 +257,17 @@ void moveSnake() {
   }
   else if (dangerHit() == 1) {                    // This detects if the snake hits a Danger Apple, and prompts the reset screens
    noodleX[len] = positionX;
-   noodleY[len] = positionY;                      // also prompts the score
+   noodleY[len] = positionY;                    
    resetSnek();
    delay(2000);
-   SCORE();
+   SCORE();                                        // also prompts the score
    reset();
   }
   else{
       for(int i = 0; i < len; i++) {                // if nothing is hit, the snake is just going to keep moving.
       noodleX[i] = snake[i+1][0];
       noodleY[i] = snake[i+1][1];
-    }
+      }
       noodleX[len-1] = positionX;
       noodleY[len-1] = positionY;
   }
@@ -275,7 +275,7 @@ void moveSnake() {
 //-------------- Death State -----------------//
 void youdied() {
   SCORE();                                               // This is the death screen.
-  erase();
+  erase();                                               // uses Library provided to display characters on Matrix
   
   matrix.setCursor(5,0);
   matrix.setTextSize(1);
