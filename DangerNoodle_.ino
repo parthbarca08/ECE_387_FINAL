@@ -29,12 +29,12 @@ void(* reset)(void) = 0;
 //-------------------For Scroll Text ---------------------//
 #define F2(progmem_ptr) (const __FlashStringHelper *)progmem_ptr
 const char str[] PROGMEM = "DANGER NOODLE!! Place Controller On Table!";
-int    textX = matrix.width(),
-       textMin = sizeof(str) * -12,
-       hue = 0;
+int textX = matrix.width();
 #define F2(progmem_ptr) (const __FlashStringHelper *)progmem_ptr
 const char str_1[] PROGMEM = "DANGER NOODLE!! GAME OVER!!";
 int    textX_1 = matrix.width();
+int textMin = sizeof(str) * -12;
+int hue = 0;
 //---------------------------------------------------------//
 
 int dirX;
