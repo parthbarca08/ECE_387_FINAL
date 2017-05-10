@@ -262,8 +262,8 @@ void moveCheck(void) {
   }
   else{
       for(int i = 0; i < len; i++) {                // if nothing is hit, the snake is just going to keep moving.
-      noodleX[i] = snake[i+1][0];
-      noodleY[i] = snake[i+1][1];
+      noodleX[i] = noodleX[i+1];
+      noodleY[i] = noodleY[i+1];
       }
       noodleX[len-1] = positionX;
       noodleY[len-1] = positionY;
@@ -304,7 +304,7 @@ void clear(void) {
 }
 //------------- Draw Snake -----------------//
 void drawSnake(void) {
-  for (int i = 0; i < len; i++) {                                                  // This is just adding color/drawing the snake.
+  for (int i = 0; i < len; i++) {         // This is just adding color/drawing the snake.
     matrix.drawPixel(noodleX[i], noodleY[i], matrix.Color333(0 , 255, 255));
     matrix.drawPixel(noodleX[len-1], noodleY[len-1], matrix.Color333(255, 0, 0));
   }
@@ -315,7 +315,7 @@ void drawFood(void) {
   matrix.drawPixel(applePosX, applePosY, matrix.Color333(0,7,0));            // draws the apple at the generated position
 }
 //--------------Draw Danger Apple ---------------//
-void drawDanger(void) {                                                              // draws the Danger Apples at the generated positions
+void drawDanger(void) {                 // draws the Danger Apples at the generated positions
   matrix.drawPixel(dangerPos_1[0], dangerPos_1[1], matrix.Color333(random(0,255) ,random(0,255) ,random(0,255)));
   matrix.drawPixel(dangerPos_2[0], dangerPos_2[1], matrix.Color333(random(0,255) ,random(0,255) ,random(0,255)));
   matrix.drawPixel(dangerPos_3[0], dangerPos_3[1], matrix.Color333(random(0,255) ,random(0,255) ,random(0,255)));
@@ -323,7 +323,7 @@ void drawDanger(void) {                                                         
 }
 //-----------------Displays # of Apples Hit----------------//
 void SCORE(void) {
-  clear();                                                      // This takes the score, and displays it.
+  clear();                 // This takes the score, and displays it.
   matrix.setCursor(1,0);
   matrix.setTextSize(1);
   matrix.setTextColor(matrix.Color333(255, 0 , 0));
@@ -344,7 +344,7 @@ void SCORE(void) {
 }
 //--------------- Displays Danger Text Scroll -----------------//
 void DANGER (void) {
-  clear();                                                                // This is Scroll test for the reset screens
+  clear();                 // This is Scroll test for the reset screens
   int flag = 1;
   float start_time = millis();
   float buffer_time = 5000;
@@ -367,7 +367,7 @@ void DANGER (void) {
   }
 }
 //--------------- Displays Reset Instruction Text Scroll -----------------//
-void resetSnek(void) {                                                     // This is Scroll test for the reset screens
+void resetSnek(void) {        // This is Scroll test for the reset screens
   clear();
   int flag = 1;
   float start_time = millis();
@@ -386,8 +386,8 @@ void resetSnek(void) {                                                     // Th
   if(hue >= 1536) {
     hue -= 1536;
   }
-  if(millis()>start_time+buffer_time){                                  // Added a counter so the scroll method could be broken out of after a certain 
-     flag = 0;                                                          // ammount of time
+  if(millis()>start_time+buffer_time){      // Added a counter so the scroll method could be broken out of after a certain 
+     flag = 0;                              // ammount of time
   }
   matrix.swapBuffers(true);
   delay(10);
