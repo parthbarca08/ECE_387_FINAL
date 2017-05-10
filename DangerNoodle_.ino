@@ -89,6 +89,7 @@ void loop() {
     myIMU.ay = myIMU.accelCount[1];
 
  //counter for changing position of danger apple
+ //changes position evry 2 seconds, as represented by one count = 100ms, times that by 20 which gives you 2000ms = 2sec
   if(appleDanger == 20) {
     //top
     dangerPos_1[0] = random(0,14);
@@ -107,7 +108,7 @@ void loop() {
     drawDanger();
     drawFood();
     drawSnake();
-    delay(100); // Inadvertantly determines how fast the snake goes.
+    delay(100); //usefull to determines how fast the snake goes.
     newDirection();
     moveCheck();
     clear();
@@ -145,7 +146,7 @@ void newDirection(void) {
     Serial.println("double back:"); 
   }
   
-       // This allows the Noodle to wrap around the LED's so it can wrap infinitly.
+// This allows the Noodle to wrap around the LED's so it can wrap infinitly.
   if (dir == down) { // DOWN
     positionY -= 1;
     if(positionY < 0){
@@ -171,14 +172,14 @@ void newDirection(void) {
 //---------------- Apple Placement -------------//
 void placeFood(void) { 
     boolean check;
-      while(check == 0) {
-        int newX = random(1,31);
-        int newY = random(1,15);
-      for (int i = 0; i < len; i++) {
+      while(check == 0) { // this is for checking if the internal code has been completed pending on the if-statement
+        int newX = random(1,31); // generates the ramdom x position
+        int newY = random(1,15); // generates the ramdom y position
+      for (int i = 0; i < len; i++) { // loop that monitors the whole length of the current Noodle™. 
        if (positionX != noodleX[i] && positionY != noodleY[i]) { // this check if the apple will be placed in the position of the snake
-        applePosX = newX;
+        applePosX = newX; // sets the random positon to the food location as determined by the random function.
         applePosY = newY;
-        check = 1; // indicates wheather loop is done
+        check = 1; // indicates wheather the if-statement has been executed
       }
     }  
   }
