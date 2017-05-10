@@ -107,7 +107,7 @@ void loop() {
     drawFood();
     drawSnake();
     delay(100); //usefull to determines how fast the snake goes.
-    newDirection();
+    Direction();
     moveCheck();
     clear();
 
@@ -117,7 +117,7 @@ void loop() {
 // in this case I had to figure out how to prevent the snake from moving diagonally, so i created a check 
 // that made sure if the accelerometer was tilted in a certain direction to only change direction if it
 // was inline with the axis of tilt.!!!!   
-void newDirection(void) {
+void Direction(void) {
   if (myIMU.ay <= myIMU.ax && myIMU.ay <= (-1 * threshold)) { // This allows the Snake to travel in the downward direction.
     if (dir != up){
       dir = down;
