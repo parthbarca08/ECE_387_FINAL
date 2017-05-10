@@ -80,7 +80,7 @@ void setup() {
   // Calibrating the IMY bias' 
   myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias); 
   placeDanger();
-  placeApple();
+  placeFood();
 }
 
 void loop() { 
@@ -106,7 +106,7 @@ void loop() {
 
 // calling methods
     drawDanger();
-    drawApple();
+    drawFood();
     drawSnake();
     delay(100); // Inadvertantly determines how fast the snake goes.
     newDirection();
@@ -115,6 +115,10 @@ void loop() {
 
 }  
 //--------------- Drirectional Controll ---------------//
+// Consider the plane of the directional movement as a cartisean coordinate system, 
+// in this case I had to figure out how to prevent the snake from moving diagonally, so i created a check 
+// that made sure if the accelerometer was tilted in a certain direction to only change direction if it
+// was inline with the axis of tilt.!!!!   
 void newDirection(void) {
   if (myIMU.ay <= myIMU.ax && myIMU.ay <= (-1 * threshold)) { // This allows the Snake to travel in the downward direction.
     if (dir != up){
@@ -142,6 +146,7 @@ void newDirection(void) {
     Serial.println("double back:"); 
   }
   
+       // This allows the Noodle to wrap around the LED's so it can wrap infinitly.
   if (dir == down) { // DOWN
     positionY -= 1;
     if(positionY < 0){
@@ -165,7 +170,7 @@ void newDirection(void) {
   }
 }
 //---------------- Apple Placement -------------//
-void placeApple(void) { 
+void placeFood(void) { 
     boolean check;
       do {
         int newX = random(1,31);
@@ -253,7 +258,7 @@ void moveCheck(void) {
    noodleY[len] = positionY;
    len = len + 1;
    count = count + 1;
-   placeApple();
+   placeFood();
   }
   else if (dangerHit() == 1) {                    // This detects if the snake hits a Danger Apple, and prompts the reset screens
    noodleX[len] = positionX;
@@ -313,7 +318,7 @@ void drawSnake(void) {
   
 }
 //-------------- Draw Apple --------------//
-void drawApple(void) {
+void drawFood(void) {
   matrix.drawPixel(applePosX, applePosY, matrix.Color333(0,7,0));            // draws the apple at the generated position
 }
 //--------------Draw Danger Apple ---------------//
