@@ -180,7 +180,8 @@ void placeFood(void) {
   }
 } 
 //---------------- Danger Placement -------------//
-void placeDanger(void) { // same concept as placeApple().
+// same concept as placeFood().
+void placeDanger(void) { 
     boolean check;
   while(check == 0) {
     int deathX = random(0,31);
@@ -210,6 +211,13 @@ void placeDanger(void) { // same concept as placeApple().
   }
 }
 //------------------ Snake Movement ----------------------//
+/*
+*This is where the program can tell if it has first, hit the snake itself, next it performs
+*checks to see if it has either collided with a Food Apple, or if it has collided with a danger apple,
+*the mechanics of these two are very similar, where one adds to the snake, the other resets the game and starts a new game
+*also if none of the conditions are met, it moves to the else statement which tells it that for each int i, that loops, the snake is itself
+* and that to increment the noodles reference position with each section of its body.
+*/
 void moveCheck(void) {
    for (int i = 0; i < len; i++) {
   if (positionX == noodleX[i] && positionY == noodleY[i]) { // This checks to see if the movement of the snake is hitting itself,
