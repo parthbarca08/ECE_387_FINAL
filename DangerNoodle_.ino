@@ -63,8 +63,7 @@ enum direction {
 direction dir = down;
 int threshold = 5000; // IMU tilt threshold. (lower # = sensitive, higher # = less sensitive)
   
-unsigned long appleDanger;
-unsigned long time;
+unsigned long appleDanger; // counter for Danger Apple™ placement.
   
 
 void setup() {
@@ -74,10 +73,8 @@ void setup() {
   matrix.setTextWrap(false); // Allow text to run off right edge
   matrix.setTextSize(2);
   
-  // Calibrating the IMY bias' 
-  myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias); 
-  placeDanger();
-  placeFood();
+  // Calibrating the IMU bias' 
+  myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
 }
 
 void loop() { 
@@ -212,7 +209,6 @@ void placeDanger(void) { // same concept as placeApple().
     }
   }
 }
-
 //------------------ Snake Movement ----------------------//
 void moveCheck(void) {
    for (int i = 0; i < len; i++) {
@@ -297,7 +293,6 @@ void death(void) {
   matrix.print('R');
   delay(2000);
 }
-
 //---------- Erase Screen -----------//
 void clear(void) {
   matrix.fillScreen(matrix.Color333(0, 0, 0));  
@@ -308,7 +303,6 @@ void drawSnake(void) {
     matrix.drawPixel(noodleX[i], noodleY[i], matrix.Color333(0 , 255, 255));
     matrix.drawPixel(noodleX[len-1], noodleY[len-1], matrix.Color333(255, 0, 0));
   }
-  
 }
 //-------------- Draw Apple --------------//
 void drawFood(void) {
@@ -356,12 +350,12 @@ void DANGER (void) {
   
   if((--textX) < textMin) textX = matrix.width();
   hue+= 7;
-  if(hue >= 1536) hue -= 1536;
-  
-  if(millis()>start_time+buffer_time){
+  if(hue >= 1536){
+    hue -= 1536;
+  }
+  if(millis()>start_time+buffer_time) {
      flag = 0; 
   }
-  
   matrix.swapBuffers(true);
   delay(10);
   }
