@@ -37,20 +37,18 @@ int textMin = sizeof(str) * -12;
 int hue = 0;
 //---------------------------------------------------------//
 
-int dirX;
-int dirY;
-int len = 3;
-int count = 0;
-int noodleX[30];
-int noodleY[30];
-int applePosX = 1;
-int applePosY = 0;
-int dangerPos_1[2];
-int dangerPos_2[2];
-int dangerPos_3[2];
-int dangerPos_4[2];
-int positionX = 6;
-int positionY = 2;
+int len = 3;       // Length, initial of 3 is arbitrary, 3 because Noodle™ cannot kill itself quicker than the first 3 links of body
+int count = 0;     // For keeping track of Score
+int noodleX[30];   // Danger Noodle™ max Length.
+int noodleY[30];   // Danger Noodle™ max Length. 
+int applePosX = 1; // Food Positions
+int applePosY = 0; // Food Positions.
+int dangerPos_1[2]; // Danger Apple™ Variables
+int dangerPos_2[2]; // Danger Apple™ Variables
+int dangerPos_3[2]; // Danger Apple™ Variables
+int dangerPos_4[2]; // Danger Apple™ Variables
+int positionX = 6; // initial X position of Danger Noodle™
+int positionY = 2; // initial Y position of Danger Noodle™
 
 // Enumerated type to store position values.
 enum direction {
@@ -185,7 +183,7 @@ void placeFood(void) {
   }
 } 
 //---------------- Danger Placement -------------//
-void placeDanger(void) { // same concept as placeApple(), 
+void placeDanger(void) { // same concept as placeApple().
     boolean check;
   while(check == 0) {
     int deathX = random(0,31);
@@ -219,9 +217,9 @@ void placeDanger(void) { // same concept as placeApple(),
 void moveCheck(void) {
    for (int i = 0; i < len; i++) {
   if (positionX == noodleX[i] && positionY == noodleY[i]) { // This checks to see if the movement of the snake is hitting itself,
-   death();                                          // if so, then it prompts the Game Over Screens, and does a system rst.
+   death();   // if so, then it prompts the Game Over Screens, and does a system rst.
    resetSnek();
-   reset();
+   reset(); // this is in reference to the software reset of the Arduino
    }
   else if (positionX == applePosX && positionY == applePosY) {                      // This increases the length of the snake if an apple is hit,
    noodleX[len] = positionX;                       // also places a new apple on the screen.
