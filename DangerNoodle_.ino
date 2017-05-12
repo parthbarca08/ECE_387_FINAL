@@ -106,7 +106,8 @@ void loop() {
     delay(100); //usefull to determines how fast the snake goes.
     Direction();
     moveCheck();
-    clear();
+    clear(); // the reason the clear() method is called is so that the screen is not constantly accululating the trail of the Danger Noodle™
+              // without this, the screen would have no refresh rate.
 
 }  
 //--------------- Drirectional Controll ---------------//
